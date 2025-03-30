@@ -17,14 +17,14 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
-    public List<Instructor> getAllInstructors(Integer page, Integer size) {
-        int offset = (page - 1) * size;
-        return instructorRepository.getAllInstructors(offset, size);
+    public List<Instructor> getAllInstructors(Long page, Long size) {
+        page = (page - 1) * size;
+        return instructorRepository.getAllInstructors(page, size);
     }
 
     @Override
-    public Instructor getInstructorById(Long id) {
-        return instructorRepository.getInstructorById(id);
+    public Instructor getInstructorById(Long instructorId) {
+        return instructorRepository.getInstructorById(instructorId);
     }
 
     @Override
@@ -33,12 +33,12 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
-    public Instructor updateInstructorById(Long id, InstructorRequest request) {
-        return instructorRepository.updateInstructorById(id, request);
+    public Instructor updateInstructorById(Long instructorId, InstructorRequest request) {
+        return instructorRepository.updateInstructorById(instructorId, request);
     }
 
     @Override
-    public void deleteInstructorById(Long id) {
-        instructorRepository.deleteInstructorById(id);
+    public void deleteInstructorById(Long instructorId) {
+        instructorRepository.deleteInstructorById(instructorId);
     }
 }

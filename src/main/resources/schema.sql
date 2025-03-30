@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS students
     student_name varchar(50)  not null,
     email        varchar(100) not null,
     phone_number varchar(20)
-)
+);
 
 CREATE TABLE IF NOT EXISTS instructors
 (
@@ -25,9 +25,9 @@ CREATE TABLE IF NOT EXISTS courses
 
 CREATE TABLE IF NOT EXISTS student_course
 (
-    id         SERIAL PRIMARY KEY,
     student_id INT,
     course_id  INT,
+    PRIMARY KEY (student_id, course_id),
     CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES students (student_id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES courses (course_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

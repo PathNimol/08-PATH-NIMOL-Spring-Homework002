@@ -16,17 +16,22 @@ public interface StudentRepository {
             @Result(property = "phoneNumber", column = "phone_number"),
             @Result(property = "courses", column = "student_id", many = @Many(select = "org.example.springhomework002.repository.StudentCourseRepository.getAllCoursesByStudentId"))
     })
-    @Select("SELECT * FROM students OFFSET #{offset} LIMIT #{limit}")
-    List<Student> getAllStudents(@Param("offset") Integer offset, @Param("limit") Integer limit);
+    @Select("""
+            SELECT * FROM students
+            OFFSET #{offset} LIMIT #{limit}
+            """)
+    List<Student> getAllStudents(@Param("offset") Long offset, @Param("limit") Long limit);
 
     @ResultMap("studentMapper")
-    @Select("SELECT * FROM students WHERE student_id = #{studentId}")
+    @Select("""
+            SELECT * FROM students WHERE student_id = #{studentId}
+            """)
     Student getStudentById(@Param("studentId") Long studentId);
 
     @ResultMap("studentMapper")
     @Select("""
-            INSERT INTO students (student_name, email, phone_number)
-            VALUES (#{request.studentName}, #{request.email}, #{request.phoneNumber})
+            INSERT INTO students
+            VALUES (default, #{request.studentName}, #{request.email}, #{request.phoneNumber})
             RETURNING *;
             """)
     Student addStudent(@Param("request") StudentRequest request);
@@ -40,6 +45,8 @@ public interface StudentRepository {
             """)
     Student updateStudentById(@Param("studentId") Long studentId, @Param("request") StudentRequest request);
 
-    @Delete("DELETE FROM students WHERE student_id = #{studentId}")
+    @Delete("""
+            DELETE FROM students WHERE student_id = #{studentId}
+            """)
     void deleteStudentById(@Param("studentId") Long studentId);
 }

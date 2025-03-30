@@ -20,8 +20,8 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<Student>>> getAllStudents(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer size) {
+            @RequestParam(defaultValue = "1") Long page,
+            @RequestParam(defaultValue = "5") Long size) {
         List<Student> students = studentService.getAllStudents(page, size);
         ApiResponse<List<Student>> response = ApiResponse.<List<Student>>builder()
                 .message("Get all students successful!")
@@ -32,8 +32,8 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Student>> getStudentById(@PathVariable("id") Long id) {
+    @GetMapping("/{student-id}")
+    public ResponseEntity<ApiResponse<Student>> getStudentById(@PathVariable("student-id") Long id) {
         Student student = studentService.getStudentById(id);
         ApiResponse<Student> response = ApiResponse.<Student>builder()
                 .message("Get student by ID " + id + " successful!")
@@ -56,13 +56,13 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{student-id}")
     public ResponseEntity<ApiResponse<Student>> updateStudent(
-            @PathVariable("id") Long id,
+            @PathVariable("student-id") Long studentId,
             @RequestBody StudentRequest request) {
-        Student student = studentService.updateStudentById(id, request);
+        Student student = studentService.updateStudentById(studentId, request);
         ApiResponse<Student> response = ApiResponse.<Student>builder()
-                .message("Student ID " + id + " updated successfully!")
+                .message("Student ID " + studentId + " updated successfully!")
                 .payload(student)
                 .status(HttpStatus.OK)
                 .time(LocalDateTime.now())
@@ -70,11 +70,11 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteStudent(@PathVariable("id") Long id) {
-        studentService.deleteStudentById(id);
+    @DeleteMapping("/{student-id}")
+    public ResponseEntity<ApiResponse<Void>> deleteStudent(@PathVariable("student-id") Long studentId) {
+        studentService.deleteStudentById(studentId);
         ApiResponse<Void> response = ApiResponse.<Void>builder()
-                .message("Student ID " + id + " deleted successfully!")
+                .message("Student ID " + studentId + " deleted successfully!")
                 .status(HttpStatus.OK)
                 .time(LocalDateTime.now())
                 .build();

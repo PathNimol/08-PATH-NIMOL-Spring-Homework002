@@ -3,6 +3,7 @@ package org.example.springhomework002.repository;
 import org.apache.ibatis.annotations.*;
 import org.example.springhomework002.model.dto.request.CourseRequest;
 import org.example.springhomework002.model.entity.Course;
+import org.example.springhomework002.model.entity.Student;
 
 import java.util.List;
 
@@ -23,14 +24,14 @@ public interface CourseRepository {
 
     @ResultMap("courseMapping")
     @Select("""
-            SELECT * FROM courses WHERE course_id = #{course_id};
+            SELECT * FROM courses WHERE course_id = #{courseId};
             """)
-    Course getCourseById(@Param("course_id") Long courseId);
+    Course getCourseById(Long courseId);
 
     @ResultMap("courseMapping")
     @Select("""
             UPDATE courses
-            SET course_name = #{request.courseName}, description=#{request.description}, instructor_id=#{request.instructorsId}
+            SET course_name = #{request.courseName}, description=#{request.description}, instructor_id=#{request.instructorId}
             WHERE course_id = #{courseId}
             RETURNING *;
            """)
@@ -38,13 +39,14 @@ public interface CourseRepository {
 
     @ResultMap("courseMapping")
     @Select("""
-            INSERT INTO courses VALUES (default, #{req.courseName}, #{req.description}, #{req.instructorsId})
+            INSERT INTO courses VALUES (default, #{req.courseName}, #{req.description}, #{req.instructorId})
             RETURNING *;
             """)
     Course createCourse(@Param("req") CourseRequest request);
 
     @Delete("""
-            DELETE FROM courses WHERE course_id = #{course_id};
+            DELETE FROM courses WHERE course_id = #{courseId};
             """)
-    void deleteCorseById(@Param("course_id") Long courseId);
+    void deleteCorseById(Long courseId);
+
 }
